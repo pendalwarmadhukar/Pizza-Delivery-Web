@@ -67,6 +67,10 @@ mongoose.connect(process.env.MONGO_URI)
   .catch(err => console.error('MongoDB Connection Error:', err));
 
 // Routes
+app.get('/', (req, res) => {
+  res.send('🍕 Pizza Hub API is up and running successfully!');
+});
+
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/pizza', require('./routes/pizza'));
 app.use('/api/orders', require('./routes/order'));
