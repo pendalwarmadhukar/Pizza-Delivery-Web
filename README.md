@@ -1,6 +1,7 @@
-<p align="center">
-  <img src="./pizza_app_banner.png" width="100%" alt="Pizza Hub Banner">
+<p align='center'>
+  <img src='./pizza_app_banner.png' width='100%' alt='Pizza Hub Banner'>
 </p>
+
 
 <h3 align="center"><font color="#FF4D00">Premium Glassmorphism UI • Real-Time Tracking • Seamless Payments</font></h3>
 
