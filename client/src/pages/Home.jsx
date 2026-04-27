@@ -131,7 +131,7 @@ const Home = () => {
   };
 
   return (
-    <div className="restaurant-home" style={{ paddingBottom: totalItems > 0 ? '100px' : '0' }}>
+    <div className="restaurant-home" style={{ paddingBottom: totalItems > 0 ? '120px' : '0' }}>
       {/* ===== PREMIUM HERO SECTION ===== */}
       <section className="premium-hero">
         <div className="premium-hero-bg">
@@ -139,27 +139,28 @@ const Home = () => {
           <div className="hero-overlay"></div>
         </div>
         
-        <div className="hero-content relative z-10 text-center flex flex-col items-center justify-center h-full pt-20">
+        <div className="hero-content relative z-10 text-center flex flex-col items-center justify-center h-full pt-20 px-4">
           <motion.div 
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             className="hero-text-center"
           >
-            <div className="hero-badge" style={{ backgroundColor: 'rgba(0,0,0,0.5)', borderColor: 'rgba(255,255,255,0.2)', backdropFilter: 'blur(10px)' }}>
-              <Flame size={16} className="text-primary" /> <span style={{ color: 'white', letterSpacing: '0.1em', textTransform: 'uppercase', fontSize: '0.75rem' }}>Authentic Italian Experience</span>
+            <div className="hero-badge bg-black/60 border border-white/10 backdrop-blur-md px-6 py-2 rounded-full mb-6 inline-flex items-center gap-3">
+              <Flame size={16} className="text-primary" /> 
+              <span className="text-xs font-bold tracking-widest uppercase">Authentic Italian Experience</span>
             </div>
-            <h1 className="hero-title-massive font-bold text-white mb-6" style={{ fontSize: '4.5rem', textShadow: '0 4px 20px rgba(0,0,0,0.5)', lineHeight: 1.1 }}>
-              Taste The <span className="text-primary">Tradition</span>
+            <h1 className="text-5xl md:text-7xl font-extrabold text-white mb-6 leading-tight">
+              Taste The <span className="title-gradient">Tradition</span>
             </h1>
-            <p className="hero-subtitle text-xl mx-auto mb-10" style={{ color: 'rgba(255,255,255,0.8)', textShadow: '0 2px 10px rgba(0,0,0,0.5)' }}>
+            <p className="text-lg md:text-xl text-white/80 max-w-2xl mx-auto mb-10 leading-relaxed">
               Handcrafted dough, San Marzano tomatoes, and mozzarella di bufala. Baked to perfection in our 800° wood-fired oven.
             </p>
-            <div className="hero-actions justify-center gap-6" style={{ display: 'flex', justifyContent: 'center' }}>
-              <button onClick={() => document.getElementById('menu').scrollIntoView({ behavior: 'smooth' })} className="btn-primary btn-lg" style={{ borderRadius: '50px', boxShadow: '0 0 30px rgba(229,57,53,0.4)' }}>
+            <div className="flex flex-wrap justify-center gap-6">
+              <button onClick={() => document.getElementById('menu').scrollIntoView({ behavior: 'smooth' })} className="btn-primary btn-lg shadow-2xl shadow-primary/20">
                 Order Delivery
               </button>
-              <button onClick={() => navigate('/builder')} className="btn-outline btn-lg" style={{ borderRadius: '50px', backgroundColor: 'white', color: 'black', border: 'none' }}>
+              <button onClick={() => navigate('/builder')} className="btn-outline btn-lg bg-white text-black border-none hover:bg-white/90">
                 Build Custom Pizza
               </button>
             </div>
@@ -168,17 +169,17 @@ const Home = () => {
       </section>
 
       {/* ===== ABOUT / OUR STORY ===== */}
-      <section className="about-section" style={{ padding: '6rem 2rem', backgroundColor: '#0a0a0c' }}>
-        <div className="container mx-auto">
-          <div className="about-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '4rem', alignItems: 'center' }}>
+      <section className="about-section py-24 bg-[#0a0a0c]">
+        <div className="container">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
             <motion.div 
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               className="relative"
             >
-              <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&q=80&w=800" alt="Chef preparing pizza" className="rounded-2xl" style={{ width: '100%', position: 'relative', zIndex: 10, boxShadow: '0 20px 50px rgba(0,0,0,0.5)' }} />
-              <div style={{ position: 'absolute', bottom: '-2rem', right: '-2rem', width: '12rem', height: '12rem', backgroundColor: 'var(--primary-glow)', borderRadius: '50%', filter: 'blur(40px)', zIndex: 0 }}></div>
+              <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&q=80&w=800" alt="Chef preparing pizza" className="rounded-3xl relative z-10 shadow-2xl w-full" />
+              <div className="absolute -bottom-8 -right-8 w-48 h-48 bg-primary/20 rounded-full blur-[60px] z-0"></div>
             </motion.div>
             
             <motion.div 
@@ -187,22 +188,22 @@ const Home = () => {
               viewport={{ once: true }}
               className="space-y-6"
             >
-              <div className="text-primary font-bold uppercase" style={{ letterSpacing: '0.1em', fontSize: '0.875rem' }}>Our Story</div>
-              <h2 className="text-5xl font-bold" style={{ lineHeight: 1.1 }}>The Secret is in <br/><span style={{ color: 'rgba(255,255,255,0.6)' }}>the Dough</span></h2>
-              <p className="text-secondary text-lg" style={{ lineHeight: 1.8 }}>
+              <div className="text-primary font-bold uppercase tracking-widest text-sm">Our Story</div>
+              <h2 className="text-4xl md:text-5xl font-bold leading-tight">The Secret is in <br/><span className="text-white/40">the Dough</span></h2>
+              <p className="text-secondary text-lg leading-relaxed">
                 Since 2010, we've been on a mission to bring authentic Neapolitan pizza to the neighborhood. Our dough is naturally fermented for 72 hours, creating that signature airy, charred crust you love.
               </p>
-              <p className="text-secondary text-lg mb-8" style={{ lineHeight: 1.8 }}>
+              <p className="text-secondary text-lg mb-8 leading-relaxed">
                 We source our ingredients directly from local farmers and select Italian artisans. It's not just pizza; it's a culinary journey.
               </p>
-              <div className="flex gap-10 pt-6" style={{ borderTop: '1px solid rgba(255,255,255,0.1)' }}>
+              <div className="flex gap-12 pt-8 border-t border-white/5">
                 <div>
                   <div className="text-3xl font-bold text-white mb-1">72<span className="text-primary">h</span></div>
-                  <div className="text-sm text-secondary">Dough Fermentation</div>
+                  <div className="text-xs text-secondary uppercase font-bold tracking-widest">Fermentation</div>
                 </div>
                 <div>
                   <div className="text-3xl font-bold text-white mb-1">800<span className="text-primary">°</span></div>
-                  <div className="text-sm text-secondary">Wood-Fired Oven</div>
+                  <div className="text-xs text-secondary uppercase font-bold tracking-widest">Wood-Fired</div>
                 </div>
               </div>
             </motion.div>
@@ -211,21 +212,21 @@ const Home = () => {
       </section>
 
       {/* ===== MENU SECTION ===== */}
-      <section id="menu" className="menu-section" style={{ padding: '6rem 2rem', backgroundColor: '#111114' }}>
-        <div className="container mx-auto">
-          <div className="text-center mb-12">
-            <div className="text-primary font-bold uppercase mb-3" style={{ letterSpacing: '0.1em', fontSize: '0.875rem' }}>Our Menu</div>
-            <h2 className="text-5xl font-bold text-white mb-4">Wood-Fired <span style={{ color: 'rgba(255,255,255,0.5)' }}>Specials</span></h2>
-            <div style={{ width: '6rem', height: '4px', backgroundColor: 'var(--primary)', margin: '0 auto', borderRadius: '4px' }}></div>
+      <section id="menu" className="menu-section py-24 bg-[#111114]">
+        <div className="container">
+          <div className="text-center mb-16">
+            <div className="text-primary font-bold uppercase tracking-widest text-sm mb-4">Our Menu</div>
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">Wood-Fired <span className="text-white/40">Specials</span></h2>
+            <div className="w-24 h-1 bg-primary mx-auto rounded-full"></div>
           </div>
 
           {loading ? (
-            <div className="loading-state py-20">
+            <div className="flex flex-col items-center justify-center py-24 gap-4">
               <div className="loading-spinner"></div>
-              <p className="mt-4 text-xl font-medium">Firing up the oven...</p>
+              <p className="text-xl font-medium text-secondary">Firing up the oven...</p>
             </div>
           ) : (
-            <div className="pizza-grid">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
               {pizzas.map((pizza, index) => {
                 const quantity = cart[pizza._id] || 0;
                 
@@ -236,38 +237,37 @@ const Home = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: index * 0.1 }}
-                    className="pizza-card"
-                    style={{ backgroundColor: '#18181c' }}
+                    className="pizza-card glass-card overflow-hidden"
                   >
-                    <div className="pizza-card-img" style={{ height: '250px' }}>
-                      <img src={pizza.image} alt={pizza.name} />
-                      <div className="pizza-card-badge" style={{ bottom: '16px', top: 'auto', backgroundColor: 'var(--primary)', color: 'white', fontSize: '1rem', padding: '8px 16px' }}>
+                    <div className="h-64 relative overflow-hidden group">
+                      <img src={pizza.image} alt={pizza.name} className="w-full h-full object-cover group-hover:scale-110 transition duration-500" />
+                      <div className="absolute top-4 right-4 bg-primary text-white font-bold px-4 py-2 rounded-xl shadow-lg">
                         ₹{pizza.price}
                       </div>
                     </div>
-                    <div className="pizza-card-body">
-                      <div className="flex justify-between items-center mb-3">
-                        <h3 className="pizza-card-title">{pizza.name}</h3>
-                        <div className="flex items-center gap-1 text-xs font-bold" style={{ backgroundColor: 'rgba(245,158,11,0.1)', color: '#f59e0b', padding: '4px 8px', borderRadius: '4px' }}>
+                    <div className="p-8">
+                      <div className="flex justify-between items-start mb-4">
+                        <h3 className="text-xl font-bold">{pizza.name}</h3>
+                        <div className="flex items-center gap-1 text-xs font-bold bg-yellow-500/10 text-yellow-500 px-2 py-1 rounded-md">
                           <Star size={12} fill="currentColor" /> 4.8
                         </div>
                       </div>
-                      <p className="pizza-card-desc" style={{ height: '3rem' }}>
+                      <p className="text-secondary text-sm mb-8 line-clamp-2 h-10">
                         {pizza.description}
                       </p>
                       
                       {quantity > 0 ? (
-                        <div className="flex items-center justify-between mt-4" style={{ backgroundColor: 'rgba(255,255,255,0.05)', borderRadius: '12px', padding: '8px' }}>
-                          <button onClick={() => handleRemoveFromCart(pizza._id)} className="w-10 h-10 flex items-center justify-center bg-white/10 hover:bg-white/20 rounded-lg text-white transition">
+                        <div className="flex items-center justify-between bg-white/5 rounded-2xl p-2">
+                          <button onClick={() => handleRemoveFromCart(pizza._id)} className="w-12 h-12 flex items-center justify-center bg-white/10 hover:bg-white/20 rounded-xl text-white transition">
                             <Minus size={18} />
                           </button>
-                          <span className="font-bold text-xl text-white">{quantity}</span>
-                          <button onClick={() => handleAddToCart(pizza)} className="w-10 h-10 flex items-center justify-center bg-primary hover:bg-primary-hover rounded-lg text-white transition shadow-[0_0_15px_rgba(229,57,53,0.4)]">
+                          <span className="font-bold text-2xl text-white">{quantity}</span>
+                          <button onClick={() => handleAddToCart(pizza)} className="w-12 h-12 flex items-center justify-center bg-primary hover:bg-primary-hover rounded-xl text-white transition shadow-xl shadow-primary/20">
                             <Plus size={18} />
                           </button>
                         </div>
                       ) : (
-                        <button onClick={() => handleAddToCart(pizza)} className="btn-primary w-full mt-4" style={{ justifyContent: 'center' }}>
+                        <button onClick={() => handleAddToCart(pizza)} className="btn-primary w-full py-4 rounded-2xl">
                           <ShoppingCart size={18} /> Add to Cart
                         </button>
                       )}
@@ -281,12 +281,12 @@ const Home = () => {
       </section>
 
       {/* ===== TESTIMONIALS ===== */}
-      <section className="testimonials-section" style={{ padding: '6rem 2rem', backgroundColor: '#0a0a0c' }}>
-        <div className="container mx-auto text-center">
-          <div className="text-primary font-bold uppercase mb-3" style={{ letterSpacing: '0.1em', fontSize: '0.875rem' }}>Reviews</div>
-          <h2 className="text-4xl font-bold text-white mb-12">What Our Guests Say</h2>
+      <section className="testimonials-section py-24 bg-[#0a0a0c]">
+        <div className="container text-center">
+          <div className="text-primary font-bold uppercase tracking-widest text-sm mb-4">Reviews</div>
+          <h2 className="text-4xl font-bold text-white mb-16">What Our Guests Say</h2>
           
-          <div className="grid grid-cols-3 gap-8" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
               { text: "Hands down the best Margherita in the city. The crust is unbelievable, exactly like the ones I had in Naples.", author: "Sarah Jenkins" },
               { text: "Fast delivery, and the pizza arrives hot and fresh. The truffle mushroom pizza is a masterpiece.", author: "David Chen" },
@@ -298,72 +298,73 @@ const Home = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.2 }}
-                className="glass-card p-8"
-                style={{ backgroundColor: '#111114', position: 'relative' }}
+                className="glass-card p-10 text-left relative"
               >
-                <div style={{ color: 'var(--primary)', opacity: 0.2, position: 'absolute', top: '1rem', left: '1.5rem', fontSize: '4rem', fontFamily: 'serif' }}>"</div>
-                <div className="flex justify-center mb-6 mt-4 gap-1" style={{ color: '#f59e0b' }}>
+                <div className="text-primary opacity-20 absolute top-4 left-6 text-6xl font-serif">"</div>
+                <div className="flex mb-6 gap-1 text-yellow-500">
                   {[1,2,3,4,5].map(s => <Star key={s} size={16} fill="currentColor" />)}
                 </div>
-                <p className="mb-6 relative z-10 text-lg" style={{ color: 'rgba(255,255,255,0.8)', fontStyle: 'italic', lineHeight: 1.8 }}>{review.text}</p>
-                <div className="font-bold text-white">{review.author}</div>
-                <div className="text-xs text-secondary mt-1">Verified Customer</div>
+                <p className="mb-8 relative z-10 text-lg text-white/80 italic leading-relaxed">{review.text}</p>
+                <div className="font-bold text-white mb-1">{review.author}</div>
+                <div className="text-xs text-secondary uppercase tracking-widest">Verified Customer</div>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ===== LOCATION & FOOTER ===== */}
-      <footer className="site-footer" style={{ borderTop: 'none', backgroundColor: '#050505', paddingTop: '4rem' }}>
-        <div className="container mx-auto">
-          <div className="footer-content" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '3rem' }}>
-            <div style={{ gridColumn: '1 / -1', maxWidth: '400px' }}>
-              <h3 className="text-2xl font-bold text-white mb-4 flex items-center gap-2">
+      {/* ===== FOOTER ===== */}
+      <footer className="site-footer bg-[#050505] pt-24 pb-12">
+        <div className="container">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-16 mb-16">
+            <div className="max-w-xs">
+              <h3 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
                 <Flame className="text-primary" /> Pizza Hub
               </h3>
-              <p className="text-secondary leading-relaxed mb-6">
+              <p className="text-secondary leading-relaxed mb-8">
                 Bringing the authentic taste of Italy right to your doorstep. Baked with love, delivered with speed.
               </p>
               <div className="flex gap-4">
-                <div className="flex items-center justify-center transition" style={{ width: '40px', height: '40px', borderRadius: '50%', backgroundColor: 'rgba(255,255,255,0.05)', color: 'white', cursor: 'pointer' }}>FB</div>
-                <div className="flex items-center justify-center transition" style={{ width: '40px', height: '40px', borderRadius: '50%', backgroundColor: 'rgba(255,255,255,0.05)', color: 'white', cursor: 'pointer' }}>IG</div>
-                <div className="flex items-center justify-center transition" style={{ width: '40px', height: '40px', borderRadius: '50%', backgroundColor: 'rgba(255,255,255,0.05)', color: 'white', cursor: 'pointer' }}>TW</div>
+                {['FB', 'IG', 'TW'].map(social => (
+                  <div key={social} className="w-10 h-10 flex items-center justify-center bg-white/5 hover:bg-primary transition-colors cursor-pointer rounded-full text-white font-bold text-xs">
+                    {social}
+                  </div>
+                ))}
               </div>
             </div>
             
-            <div>
-              <h4 className="text-white font-bold mb-4 text-lg">Contact Us</h4>
+            <div className="space-y-6">
+              <h4 className="text-white font-bold text-lg uppercase tracking-widest">Contact Us</h4>
               <ul className="space-y-4 text-secondary">
-                <li className="flex items-start gap-3">
-                  <MapPin size={20} className="text-primary" style={{ flexShrink: 0, marginTop: '4px' }} />
+                <li className="flex items-start gap-4">
+                  <MapPin size={20} className="text-primary shrink-0 mt-1" />
                   <span>42 Pizza Street, Bandra West,<br/>Mumbai, Maharashtra 400050</span>
                 </li>
-                <li className="flex items-center gap-3">
-                  <Phone size={20} className="text-primary" style={{ flexShrink: 0 }} />
+                <li className="flex items-center gap-4">
+                  <Phone size={20} className="text-primary shrink-0" />
                   <span>+91 98765 43210</span>
                 </li>
               </ul>
             </div>
             
-            <div>
-              <h4 className="text-white font-bold mb-4 text-lg">Opening Hours</h4>
-              <ul className="space-y-3 text-secondary">
-                <li className="flex justify-between pb-2" style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-                  <span>Mon - Thu:</span> <span className="text-white">11:00 AM - 10:00 PM</span>
+            <div className="space-y-6">
+              <h4 className="text-white font-bold text-lg uppercase tracking-widest">Opening Hours</h4>
+              <ul className="space-y-4 text-secondary">
+                <li className="flex justify-between pb-3 border-b border-white/5">
+                  <span className="font-medium">Mon - Thu:</span> <span className="text-white">11 AM - 10 PM</span>
                 </li>
-                <li className="flex justify-between pb-2" style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-                  <span>Fri - Sat:</span> <span className="text-white">11:00 AM - 12:00 AM</span>
+                <li className="flex justify-between pb-3 border-b border-white/5">
+                  <span className="font-medium">Fri - Sat:</span> <span className="text-white">11 AM - 12 AM</span>
                 </li>
                 <li className="flex justify-between">
-                  <span>Sunday:</span> <span className="text-white">12:00 PM - 10:00 PM</span>
+                  <span className="font-medium">Sunday:</span> <span className="text-white">12 PM - 10 PM</span>
                 </li>
               </ul>
             </div>
           </div>
           
-          <div className="footer-bottom">
-            <p>© {new Date().getFullYear()} Pizza Hub. All rights reserved.</p>
+          <div className="pt-12 border-t border-white/5 text-center text-secondary text-sm">
+            <p>© {new Date().getFullYear()} Pizza Hub. Built with passion for pizza lovers.</p>
           </div>
         </div>
       </footer>
@@ -375,28 +376,23 @@ const Home = () => {
             initial={{ y: 100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 100, opacity: 0 }}
-            style={{ 
-              position: 'fixed', bottom: 0, left: 0, width: '100%', 
-              backgroundColor: '#111114', borderTop: '1px solid rgba(255,255,255,0.1)', 
-              padding: '1.5rem 2rem', zIndex: 100, boxShadow: '0 -10px 40px rgba(0,0,0,0.5)' 
-            }}
+            className="fixed bottom-0 left-0 w-full bg-dark/80 backdrop-blur-xl border-t border-white/10 p-6 z-[60] shadow-2xl"
           >
-            <div className="container mx-auto flex justify-between items-center">
+            <div className="container flex justify-between items-center gap-4">
               <div>
-                <div style={{ color: 'rgba(255,255,255,0.6)', fontWeight: 'bold', fontSize: '0.9rem', marginBottom: '4px' }}>
-                  {totalItems} Item{totalItems > 1 ? 's' : ''} in Cart
+                <div className="text-white/60 text-xs font-bold uppercase tracking-widest mb-1">
+                  {totalItems} Item{totalItems > 1 ? 's' : ''} in your cart
                 </div>
-                <div className="text-white font-bold" style={{ fontSize: '1.75rem', lineHeight: 1 }}>
+                <div className="text-3xl font-extrabold text-white">
                   Total: <span className="text-primary">₹{totalPrice}</span>
                 </div>
               </div>
               
               <button 
                 onClick={handleCheckoutCart} 
-                className="btn-primary" 
-                style={{ padding: '1rem 2.5rem', fontSize: '1.1rem', borderRadius: '50px', boxShadow: '0 0 20px rgba(229,57,53,0.3)', display: 'flex', alignItems: 'center', gap: '8px' }}
+                className="btn-primary py-4 px-10 rounded-2xl text-lg shadow-2xl shadow-primary/30 flex items-center gap-3"
               >
-                Proceed to Payment <ArrowRight size={20} />
+                Checkout Now <ArrowRight size={20} />
               </button>
             </div>
           </motion.div>

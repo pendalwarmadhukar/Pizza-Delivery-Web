@@ -221,6 +221,7 @@ body {
   font-size: 1.4rem;
   font-weight: 700;
   background: linear-gradient(135deg, #FF4D00, #FFB800);
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -376,6 +377,7 @@ body {
 .text-yellow-500 { color: #f59e0b; }
 .title-gradient {
   background: linear-gradient(90deg, #FF4D00, #FFB800);
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -498,6 +500,7 @@ input:focus { border-color: var(--primary); }
   line-height: 1.6;
   margin-bottom: 1.25rem;
   display: -webkit-box;
+  line-clamp: 2;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
