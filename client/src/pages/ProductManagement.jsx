@@ -32,13 +32,48 @@ const ProductManagement = () => {
     fetchProducts();
   }, []);
 
+  const handleEdit = (product) => {
+    setEditingProduct(product);
+    setFormData({
+      name: product.name,
+      description: product.description,
+      price: product.price,
+      category: product.category,
+      type: product.type || 'Veg',
+      image: product.image
+    });
+    setIsModalOpen(true);
+  };
+
+  const handleDelete = async (id) => {
+    const result = await Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#FF4D00',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    });
+
+    if (result.isConfirmed) {
+      try {
+        const config = { headers: { Authorization: `Bearer ${user.token}` } };
+        await axios.delete(`http://localhost:5000/api/pizza/${id}`, config);
+        Swal.fire('Deleted!', 'Product has been removed.', 'success');
+        fetchProducts();
+      } catch (err) {
+        Swal.fire('Error', 'Failed to delete product', 'error');
+      }
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
       if (editingProduct) {
-        // Update logic (assuming PUT /api/pizza/:id exists or using POST for now if not)
-        await axios.post('http://localhost:5000/api/pizza', formData, config); 
+        await axios.put(`http://localhost:5000/api/pizza/${editingProduct._id}`, formData, config); 
       } else {
         await axios.post('http://localhost:5000/api/pizza', formData, config);
       }
@@ -60,7 +95,11 @@ const ProductManagement = () => {
           <p className="text-secondary">Manage your specialty pizzas and sides here.</p>
         </div>
         <button 
-          onClick={() => setIsModalOpen(true)}
+          onClick={() => {
+            setEditingProduct(null);
+            setFormData({ name: '', description: '', price: '', category: 'Pizza', type: 'Veg', image: '' });
+            setIsModalOpen(true);
+          }}
           className="btn-primary flex items-center gap-2 py-3 px-6"
         >
           <Plus size={20} /> Add New Product
@@ -73,10 +112,16 @@ const ProductManagement = () => {
             <div className="h-48 relative">
               <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
               <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4">
-                <button className="p-3 bg-white/10 backdrop-blur-md rounded-full text-white hover:bg-white/20 transition">
+                <button 
+                  onClick={() => handleEdit(product)}
+                  className="p-3 bg-white/10 backdrop-blur-md rounded-full text-white hover:bg-white/20 transition"
+                >
                   <Edit2 size={20} />
                 </button>
-                <button className="p-3 bg-red-500/20 backdrop-blur-md rounded-full text-red-500 hover:bg-red-500/40 transition">
+                <button 
+                  onClick={() => handleDelete(product._id)}
+                  className="p-3 bg-red-500/20 backdrop-blur-md rounded-full text-red-500 hover:bg-red-500/40 transition"
+                >
                   <Trash2 size={20} />
                 </button>
               </div>
@@ -103,7 +148,7 @@ const ProductManagement = () => {
         <div className="fixed inset-0 bg-black/80 backdrop-blur-md z-[100] flex items-center justify-center p-4">
           <div className="bg-dark border border-white/10 rounded-3xl w-full max-w-2xl overflow-hidden animate-fade-in">
             <div className="p-8 border-b border-white/5 flex justify-between items-center">
-              <h2 className="text-2xl font-bold">Add New Product</h2>
+              <h2 className="text-2xl font-bold">{editingProduct ? 'Edit Product' : 'Add New Product'}</h2>
               <button onClick={() => setIsModalOpen(false)}><X size={24} /></button>
             </div>
             
@@ -185,7 +230,7 @@ const ProductManagement = () => {
               </div>
 
               <button type="submit" className="btn-primary col-span-2 py-4 mt-4 flex items-center justify-center gap-2">
-                <Save size={20} /> Save Product
+                <Save size={20} /> {editingProduct ? 'Update Product' : 'Save Product'}
               </button>
             </form>
           </div>

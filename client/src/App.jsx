@@ -17,11 +17,15 @@ import Profile from './pages/Profile';
 function App() {
   return (
     <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
-      <div className="min-h-screen relative overflow-hidden">
-        <div className="pizza-glow top-20 -left-20"></div>
-        <div className="pizza-glow bottom-20 -right-20" style={{ background: 'rgba(255, 184, 0, 0.2)' }}></div>
-        <Navbar />
-        <main className="container mx-auto">
+      <div className="min-h-screen relative overflow-hidden bg-dark">
+        {/* Global Cinematic Glows */}
+        <div className="fixed top-[-10%] left-[-10%] w-[50%] h-[50%] bg-primary/10 rounded-full blur-[150px] pointer-events-none z-0"></div>
+        <div className="fixed bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-orange-500/5 rounded-full blur-[150px] pointer-events-none z-0"></div>
+        <div className="fixed top-[30%] left-[30%] w-[30%] h-[30%] bg-primary/5 rounded-full blur-[120px] pointer-events-none z-0"></div>
+        
+        <div className="relative z-10">
+          <Navbar />
+          <main className="container mx-auto">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/menu" element={<Menu />} />
@@ -67,6 +71,7 @@ function App() {
             } />
           </Routes>
         </main>
+        </div>
       </div>
     </Router>
   );

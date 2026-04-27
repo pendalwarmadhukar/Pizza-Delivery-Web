@@ -129,21 +129,21 @@ const Navbar = () => {
       </div>
 
       {/* Mobile Actions */}
-      <div className="flex items-center gap-4 lg:hidden">
-        <button onClick={handleUpdateLocation} className="p-2 text-primary">
-          <MapPin size={24} />
+      <div className="flex items-center gap-2 lg:hidden">
+        <button onClick={handleUpdateLocation} className="p-2 text-primary hover:bg-white/5 rounded-full transition">
+          <MapPin size={22} />
         </button>
         <button 
           onClick={() => setIsMenuOpen(!isMenuOpen)} 
-          className="p-2 text-secondary hover:text-white transition"
+          className="p-2 text-white hover:bg-white/5 rounded-full transition"
         >
-          {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
+          {isMenuOpen ? <X size={26} /> : <Menu size={26} />}
         </button>
       </div>
 
       {/* Mobile Sidebar */}
-      <div className={`fixed inset-0 bg-black/60 backdrop-blur-lg z-50 transition-all duration-300 ${isMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible lg:hidden'}`}>
-        <div className={`absolute right-0 top-0 h-full w-4/5 max-w-xs bg-dark p-8 shadow-2xl transition-transform duration-300 ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+      <div className={`fixed inset-0 bg-black/60 backdrop-blur-md z-[200] lg:hidden transition-all duration-300 ${isMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'}`}>
+        <div className={`absolute right-0 top-0 h-full w-4/5 max-w-xs bg-dark border-l border-white/10 p-8 shadow-2xl transition-transform duration-300 ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
           <div className="flex justify-between items-center mb-12">
             <span className="text-2xl font-bold">Menu</span>
             <button onClick={() => setIsMenuOpen(false)}><X size={28} /></button>
