@@ -12,6 +12,7 @@ const steps = ['Base', 'Sauce', 'Cheese', 'Veggies', 'Meat'];
 
 const PizzaBuilder = () => {
   const [currentStep, setCurrentStep] = useState(0);
+  const [address, setAddress] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { inventory, selectedBase, selectedSauce, selectedCheese, selectedVeggies, selectedMeat, totalPrice, isLoading } = useSelector(state => state.builder);
@@ -39,6 +40,9 @@ const PizzaBuilder = () => {
     if (!selectedBase || !selectedSauce || !selectedCheese) {
       return Swal.fire('Incomplete', 'Please complete all required steps (Base, Sauce, Cheese)', 'warning');
     }
+    if (!address.trim()) {
+      return Swal.fire('Address Missing', 'Please enter a delivery address', 'warning');
+    }
     if (totalPrice === 0) return Swal.fire('Error', 'Your cart is empty', 'warning');
 
     try {
@@ -56,8 +60,10 @@ const PizzaBuilder = () => {
             meat: selectedMeat?.name || null
           }
         }],
-        totalAmount: totalPrice
+        totalAmount: totalPrice,
+        deliveryAddress: address
       };
+
 
       const { data } = await axios.post('http://localhost:5000/api/orders', orderData, {
         headers: { Authorization: `Bearer ${user.token}` }
@@ -237,11 +243,23 @@ const PizzaBuilder = () => {
               <span className="font-medium">{selectedMeat?.name || 'None'}</span>
             </div>
           </div>
+
+          <div className="mt-8 space-y-4">
+            <label className="text-secondary text-sm font-bold uppercase tracking-widest block">Delivery Address</label>
+            <textarea 
+              placeholder="House No, Street, Landmark..."
+              className="w-full glass-card bg-white/5 border-white/10 rounded-xl p-3 text-sm focus:border-primary outline-none min-h-[100px] transition"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+            />
+          </div>
+
           <div className="mt-8 pt-4 border-t border-white/10 flex justify-between items-center">
             <span className="text-lg font-bold">Total</span>
             <span className="text-2xl font-bold text-primary">₹{totalPrice}</span>
           </div>
         </div>
+
       </div>
     </div>
   );

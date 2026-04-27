@@ -16,6 +16,7 @@ const OrderSchema = new mongoose.Schema({
     quantity: { type: Number, default: 1 }
   }],
   totalAmount: { type: Number, required: true },
+  deliveryAddress: { type: String, required: true },
   status: { 
     type: String, 
     enum: ['Order Received', 'In Kitchen', 'Sent for Delivery', 'Delivered'],

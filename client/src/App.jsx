@@ -4,6 +4,7 @@ import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import Menu from './pages/Menu';
 import PizzaBuilder from './pages/PizzaBuilder';
 import OrderTracking from './pages/OrderTracking';
 import AdminDashboard from './pages/AdminDashboard';
@@ -21,6 +22,7 @@ function App() {
         <main className="container mx-auto">
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/menu" element={<Menu />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/builder" element={<PizzaBuilder />} />
@@ -57,3 +59,4 @@ function App() {
 }
 
 export default App;
+
