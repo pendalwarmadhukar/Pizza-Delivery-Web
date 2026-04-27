@@ -4,13 +4,16 @@ import io from 'socket.io-client';
 import { motion } from 'framer-motion';
 import { ChefHat, Truck, CheckCircle, Package } from 'lucide-react';
 
-const socket = io('http://localhost:5000');
-
 const OrderTracking = () => {
   const { id } = useParams();
   const [status, setStatus] = useState('Order Received');
 
   useEffect(() => {
+    // Only connect when on this page
+    const socket = io('http://localhost:5000', {
+      transports: ['websocket', 'polling'],
+    });
+
     socket.emit('join_order_room', id);
 
     socket.on('status_updated', (newStatus) => {
@@ -19,6 +22,7 @@ const OrderTracking = () => {
 
     return () => {
       socket.off('status_updated');
+      socket.disconnect(); // Clean up connection when leaving page
     };
   }, [id]);
 

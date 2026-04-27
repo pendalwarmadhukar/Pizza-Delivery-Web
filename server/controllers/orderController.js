@@ -6,12 +6,24 @@ const mongoose = require('mongoose');
 
 exports.createOrder = async (req, res, next) => {
   const { items, totalAmount, deliveryAddress } = req.body;
+
+  // Upfront validation
+  if (!deliveryAddress || !deliveryAddress.trim()) {
+    return res.status(400).json({ message: 'Delivery address is required.' });
+  }
+  if (!totalAmount || totalAmount <= 0) {
+    return res.status(400).json({ message: 'Invalid order amount.' });
+  }
+  if (!items || items.length === 0) {
+    return res.status(400).json({ message: 'Order must contain at least one item.' });
+  }
+
   try {
     // 1. Pre-Payment Stock Check
     for (const item of items) {
-      if (item.isCustom) {
+      if (item.isCustom && item.config) {
         const { base, sauce, cheese, veggies, meat } = item.config;
-        const ingredients = [base, sauce, cheese, ...veggies, meat].filter(Boolean);
+        const ingredients = [base, sauce, cheese, ...(veggies || []), meat].filter(Boolean);
         for (const ingName of ingredients) {
           const invItem = await Inventory.findOne({ name: ingName });
           if (!invItem || invItem.quantity <= 0) {
@@ -21,20 +33,29 @@ exports.createOrder = async (req, res, next) => {
       }
     }
 
-    const options = {
-      amount: totalAmount * 100, // amount in paisa
-      currency: "INR",
-      receipt: `receipt_${Date.now()}`,
-    };
+    // 2. Create Razorpay order
+    let rzpOrder;
+    try {
+      rzpOrder = await razorpay.orders.create({
+        amount: Math.round(totalAmount * 100), // amount in paisa, must be integer
+        currency: 'INR',
+        receipt: `receipt_${Date.now()}`,
+      });
+    } catch (rzpError) {
+      console.error('Razorpay Error:', rzpError);
+      return res.status(502).json({ 
+        message: 'Payment gateway error. Please check your Razorpay keys or try again later.',
+        detail: rzpError.error?.description || rzpError.message
+      });
+    }
 
-    const rzpOrder = await razorpay.orders.create(options);
-    
+    // 3. Save order in DB
     const order = await Order.create({
       user: req.user._id,
       items,
       totalAmount,
       razorpayOrderId: rzpOrder.id,
-      deliveryAddress,
+      deliveryAddress: deliveryAddress.trim(),
       status: 'Order Received',
     });
 
