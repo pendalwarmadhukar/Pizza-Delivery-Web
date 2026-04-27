@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { motion } from 'framer-motion';
 import { Clock, ExternalLink } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import '../styles/Orders.css';
 
 const MyOrders = () => {
   const [orders, setOrders] = useState([]);
@@ -27,51 +28,51 @@ const MyOrders = () => {
   }, [user.token]);
 
   return (
-    <div className="p-8 max-w-4xl mx-auto">
-      <h1 className="text-4xl font-bold mb-8 title-gradient">My Orders</h1>
+    <div className="orders-page-container">
+      <h1 className="orders-title title-gradient">My Orders</h1>
 
       {loading ? (
-        <div className="text-center py-20 text-secondary">Fetching your orders...</div>
+        <div className="orders-loading text-secondary">Fetching your orders...</div>
       ) : orders.length === 0 ? (
-        <div className="text-center py-20 glass-card">
-          <p className="text-secondary text-lg mb-6">You haven't placed any orders yet.</p>
+        <div className="orders-empty glass-card">
+          <p className="orders-empty-text text-secondary">You haven't placed any orders yet.</p>
           <button onClick={() => navigate('/')} className="btn-primary">Order Now</button>
         </div>
       ) : (
-        <div className="space-y-6">
+        <div className="orders-list">
           {orders.map(order => (
             <motion.div 
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               key={order._id} 
-              className="glass-card p-6 flex items-center justify-between"
+              className="glass-card order-card"
             >
-              <div>
-                <div className="flex items-center gap-3 mb-2">
-                  <span className="font-bold text-lg">#{order._id.slice(-6).toUpperCase()}</span>
-                  <span className={`px-3 py-1 rounded-full text-xs font-bold ${
-                    order.status === 'Delivered' ? 'bg-green-500/20 text-green-500' : 'bg-primary/20 text-primary'
+              <div className="order-info">
+                <div className="order-header">
+                  <span className="order-id">#{order._id.slice(-6).toUpperCase()}</span>
+                  <span className={`order-status ${
+                    order.status === 'Delivered' ? 'status-delivered' : 'status-pending'
                   }`}>
                     {order.status}
                   </span>
                 </div>
-                <div className="text-secondary text-sm flex items-center gap-2">
+                <div className="order-date text-secondary">
                   <Clock size={14} /> {new Date(order.createdAt).toLocaleDateString()}
                 </div>
-                <div className="mt-2 flex flex-wrap gap-2">
+                <div className="order-items-list">
                   {order.items.map((item, i) => (
-                    <span key={i} className="text-xs bg-white/5 px-2 py-1 rounded">
+                    <span key={i} className="order-item-badge">
                       {item.name} {item.isCustom ? '(Custom)' : ''}
                     </span>
                   ))}
                 </div>
               </div>
 
-              <div className="text-right">
-                <div className="text-xl font-bold mb-3">₹{order.totalAmount}</div>
+              <div className="order-actions">
+                <div className="order-price">₹{order.totalAmount}</div>
                 <button 
                   onClick={() => navigate(`/track-order/${order._id}`)}
-                  className="flex items-center gap-2 text-primary hover:text-white transition"
+                  className="track-order-btn"
                 >
                   Track Order <ExternalLink size={16} />
                 </button>

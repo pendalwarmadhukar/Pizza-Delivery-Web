@@ -1,0 +1,319 @@
+/* PIZZA BUILDER WORKSHOP STYLES */
+.builder-step-indicator {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 3.5rem;
+  flex-wrap: wrap;
+}
+
+.step-pill {
+  flex: 1;
+  padding: 0.75rem 1.5rem;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: 1rem;
+  min-width: 140px;
+  opacity: 0.5;
+  transition: var(--transition);
+  cursor: default;
+}
+
+.step-pill.active {
+  background: var(--bg-card);
+  border-color: var(--primary);
+  opacity: 1;
+}
+
+.step-phase {
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  font-weight: 900;
+  margin-bottom: 0.25rem;
+  letter-spacing: 0.1em;
+  opacity: 0.6;
+}
+
+.step-name {
+  font-weight: 700;
+  font-size: 1.125rem;
+}
+
+.ingredient-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .ingredient-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 768px) {
+  .ingredient-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+.ingredient-card {
+  background: var(--bg-card);
+  border: 1px solid var(--glass-border);
+  border-radius: 1.5rem;
+  padding: 1.5rem;
+  text-align: left;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+}
+
+.ingredient-card:hover {
+  border-color: rgba(255, 77, 0, 0.5);
+  transform: translateY(-5px);
+}
+
+.ingredient-card.selected {
+  border-color: var(--primary);
+  background: linear-gradient(to bottom right, rgba(255, 77, 0, 0.1), transparent);
+  box-shadow: 0 10px 25px -5px rgba(255, 77, 0, 0.2);
+}
+
+.ingredient-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+}
+
+.ingredient-icon-wrapper {
+  padding: 0.75rem;
+  border-radius: 0.75rem;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.icon-muted { color: rgba(255, 255, 255, 0.2); }
+
+.ingredient-check-wrapper {
+  background: var(--primary);
+  padding: 0.25rem;
+  border-radius: 50%;
+}
+
+.ingredient-name {
+  font-weight: 700;
+  font-size: 1.25rem;
+  margin-bottom: 0.25rem;
+  color: white;
+}
+
+.ingredient-price {
+  font-weight: 900;
+  font-size: 1.125rem;
+}
+
+.ingredient-stock {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-top: 1rem;
+}
+
+.builder-navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 3rem;
+}
+
+.nav-back-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.875rem;
+  color: var(--secondary);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.nav-back-btn:hover:not(.disabled) { color: var(--primary); }
+.nav-back-btn.disabled { opacity: 0.2; pointer-events: none; }
+
+.nav-next-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.nav-next-btn {
+  padding: 1rem 2.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.next-icon-anim { transition: transform 0.3s ease; }
+.nav-next-btn:hover .next-icon-anim { transform: translateX(4px); }
+
+.finalize-btn {
+  padding: 1rem 2.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  box-shadow: 0 0 40px rgba(255, 77, 0, 0.3);
+}
+
+.finalize-btn span {
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+/* Builder Summary */
+.builder-summary {
+  width: 100%;
+  max-width: 24rem;
+  background: var(--bg-card);
+  border: 1px solid var(--glass-border);
+  border-radius: 1.5rem;
+  padding: 2rem;
+  position: sticky;
+  top: 100px;
+}
+
+.summary-title {
+  font-size: 1.5rem;
+  font-weight: 900;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: -0.05em;
+  color: white;
+}
+
+.summary-title .title-dash {
+  width: 0.5rem;
+  height: 2rem;
+  border-radius: 9999px;
+}
+
+.summary-items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 0.75rem;
+  margin-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.summary-label {
+  color: rgba(255, 255, 255, 0.4);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.625rem;
+  letter-spacing: 0.1em;
+}
+
+.summary-value {
+  font-weight: 700;
+  color: white;
+}
+
+.summary-item-veggies {
+  padding: 1rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  margin-bottom: 0.75rem;
+}
+
+.veggie-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.veggie-tag {
+  background: rgba(255, 255, 255, 0.05);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 0.5rem;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.no-veggies {
+  color: rgba(255, 255, 255, 0.1);
+  font-style: italic;
+  font-size: 0.75rem;
+}
+
+.delivery-section { margin-top: 2.5rem; }
+
+.delivery-label {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.625rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  display: block;
+  margin-bottom: 0.75rem;
+}
+
+.delivery-textarea {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1rem;
+  padding: 1rem;
+  font-size: 0.875rem;
+  color: white;
+  outline: none;
+  min-height: 120px;
+  transition: var(--transition);
+  resize: vertical;
+}
+
+.delivery-textarea::placeholder { color: rgba(255, 255, 255, 0.2); }
+.delivery-textarea:focus { border-color: var(--primary); }
+
+.total-section {
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.total-label {
+  font-size: 0.625rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.4);
+  margin-bottom: 0.25rem;
+}
+
+.total-price {
+  font-size: 2.25rem;
+  font-weight: 900;
+}
+
+.tax-label {
+  color: rgba(255, 255, 255, 0.2);
+  margin-bottom: 0.25rem;
+  font-weight: 700;
+  font-size: 0.75rem;
+}

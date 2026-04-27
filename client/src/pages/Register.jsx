@@ -28,11 +28,11 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-[80vh] flex items-center justify-center p-6">
+    <div className="auth-page-wrapper">
       <motion.div 
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
-        className="glass-card w-full max-w-md p-8"
+        className="auth-card"
       >
         <h2 className="text-3xl font-bold mb-6 title-gradient">Create Account</h2>
         <form onSubmit={onSubmit} className="space-y-4">

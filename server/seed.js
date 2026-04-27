@@ -49,55 +49,89 @@ const specialtyPizzas = [
     description: 'Fresh basil, bocconcini mozzarella, and our signature red sauce on a thin crust.',
     price: 299,
     image: 'https://images.unsplash.com/photo-1604068549290-dea0e4a305ca?auto=format&fit=crop&q=80&w=800',
+    type: 'Veg',
+    category: 'Pizza'
   },
   {
     name: 'Pepperoni Feast',
     description: 'Double layer of spicy pepperoni with extra mozzarella and oregano.',
     price: 449,
     image: 'https://images.unsplash.com/photo-1628840042765-356cda07504e?auto=format&fit=crop&q=80&w=800',
+    type: 'Non-Veg',
+    category: 'Pizza'
   },
   {
     name: 'Rustic Paneer',
     description: 'Tandoori spices meets Italian dough. Topped with marinated paneer cubes.',
     price: 399,
     image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&q=80&w=800',
+    type: 'Veg',
+    category: 'Pizza'
   },
   {
     name: 'BBQ Chicken Supreme',
     description: 'Smoky BBQ sauce, grilled chicken, red onions, and cilantro drizzle.',
     price: 499,
     image: 'https://images.unsplash.com/photo-1565299507177-b0ac66763828?auto=format&fit=crop&q=80&w=800',
+    type: 'Non-Veg',
+    category: 'Pizza'
   },
   {
     name: 'Veggie Garden',
     description: 'Loaded with mushrooms, bell peppers, olives, corn, and fresh tomatoes.',
     price: 349,
     image: 'https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&q=80&w=800',
+    type: 'Veg',
+    category: 'Pizza'
   },
   {
     name: 'Hawaiian Bliss',
     description: 'Sweet pineapple chunks with ham, mozzarella, and a hint of jalapeño.',
     price: 429,
     image: 'https://images.unsplash.com/photo-1565299585323-38d6b0865b47?auto=format&fit=crop&q=80&w=800',
+    type: 'Non-Veg',
+    category: 'Pizza'
   },
   {
     name: 'Mushroom Truffle',
     description: 'Wild mushroom medley with truffle oil, parmesan, and garlic cream base.',
     price: 549,
     image: 'https://images.unsplash.com/photo-1571407970349-bc81e7e96d47?auto=format&fit=crop&q=80&w=800',
+    type: 'Veg',
+    category: 'Pizza'
   },
   {
     name: 'Spicy Diavola',
     description: 'Fiery salami, chilli flakes, jalapeño, and spicy marinara sauce.',
     price: 479,
     image: 'https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?auto=format&fit=crop&q=80&w=800',
+    type: 'Non-Veg',
+    category: 'Pizza'
   },
   {
     name: 'Four Cheese',
     description: 'A rich blend of mozzarella, cheddar, parmesan, and gorgonzola.',
     price: 529,
     image: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&q=80&w=800',
+    type: 'Veg',
+    category: 'Pizza'
   },
+  {
+    name: 'Garlic Breadsticks',
+    description: 'Freshly baked breadsticks brushed with garlic butter and herbs.',
+    price: 149,
+    image: 'https://images.unsplash.com/photo-1573140247632-f8fd74997d5c?auto=format&fit=crop&q=80&w=800',
+    type: 'Veg',
+    category: 'Side'
+  },
+  {
+    name: 'Spicy BBQ Wings',
+    description: 'Oven-roasted chicken wings tossed in our signature smoky BBQ sauce.',
+    price: 249,
+    image: 'https://images.unsplash.com/photo-1569691899455-88464f6d3ab1?auto=format&fit=crop&q=80&w=800',
+    type: 'Non-Veg',
+    category: 'Side'
+  }
 ];
 
 const seedDB = async () => {

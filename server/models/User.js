@@ -10,6 +10,7 @@ const UserSchema = new mongoose.Schema({
   verificationToken: String,
   resetPasswordToken: String,
   resetPasswordExpires: Date,
+  phone: { type: String, unique: true, sparse: true },
 }, { timestamps: true });
 
 UserSchema.pre('save', async function(next) {

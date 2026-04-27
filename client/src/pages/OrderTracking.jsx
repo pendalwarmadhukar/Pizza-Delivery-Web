@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import io from 'socket.io-client';
 import { motion } from 'framer-motion';
 import { ChefHat, Truck, CheckCircle, Package } from 'lucide-react';
+import '../styles/Orders.css';
 
 const OrderTracking = () => {
   const { id } = useParams();
@@ -36,21 +37,21 @@ const OrderTracking = () => {
   const currentIdx = steps.findIndex(s => s.label === status);
 
   return (
-    <div className="p-8 max-w-2xl mx-auto text-center">
-      <h1 className="text-3xl font-bold mb-12 title-gradient">Track Your Order</h1>
-      <div className="text-secondary mb-4">Order ID: {id}</div>
+    <div className="tracking-page-container">
+      <h1 className="tracking-title title-gradient">Track Your Order</h1>
+      <div className="tracking-id text-secondary">Order ID: {id}</div>
       
-      <div className="glass-card p-10 relative overflow-hidden">
-        <div className="flex justify-between relative z-10">
+      <div className="tracking-card glass-card">
+        <div className="tracking-steps-container">
           {steps.map((step, idx) => {
             const Icon = step.icon;
             const isActive = idx <= currentIdx;
             return (
-              <div key={step.label} className="flex flex-col items-center gap-4 flex-1">
-                <div className={`p-4 rounded-full transition-all duration-500 ${isActive ? 'bg-primary text-white scale-110 shadow-[0_0_20px_rgba(255,77,0,0.4)]' : 'bg-white/5 text-secondary'}`}>
+              <div key={step.label} className="tracking-step-col">
+                <div className={`tracking-icon-wrapper ${isActive ? 'active' : ''}`}>
                   <Icon size={28} />
                 </div>
-                <div className={`text-xs font-bold uppercase transition-colors duration-500 ${isActive ? 'text-white' : 'text-secondary/50'}`}>
+                <div className={`tracking-step-label ${isActive ? 'active' : ''}`}>
                   {step.label}
                 </div>
               </div>
@@ -59,11 +60,11 @@ const OrderTracking = () => {
         </div>
         
         {/* Progress Line */}
-        <div className="absolute top-[68px] left-[15%] right-[15%] h-1 bg-white/5 -z-0">
+        <div className="tracking-progress-bg">
           <motion.div 
             initial={{ width: 0 }}
             animate={{ width: `${(currentIdx / (steps.length - 1)) * 100}%` }}
-            className="h-full bg-primary"
+            className="tracking-progress-fill bg-primary"
           />
         </div>
       </div>
@@ -72,7 +73,7 @@ const OrderTracking = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         key={status}
-        className="mt-12 text-2xl font-bold text-primary"
+        className="tracking-current-status text-primary"
       >
         {status === 'Delivered' ? 'Enjoy your pizza!' : `Current Status: ${status}`}
       </motion.div>

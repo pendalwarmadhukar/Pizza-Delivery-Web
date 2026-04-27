@@ -59,6 +59,8 @@ io.on('connection', (socket) => {
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {
     console.log('MongoDB Connected');
+    // Drop problematic phone index if it exists
+    mongoose.connection.collection('users').dropIndex('phone_1').catch(() => {});
     // Start Cron Job
     initCron();
   })

@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronRight, ChevronLeft, Check, ShoppingCart, Pizza } from 'lucide-react';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
+import '../styles/PizzaBuilder.css';
 
 const steps = ['Base', 'Sauce', 'Cheese', 'Veggies', 'Meat'];
 
@@ -63,7 +64,6 @@ const PizzaBuilder = () => {
         totalAmount: totalPrice,
         deliveryAddress: address
       };
-
 
       const { data } = await axios.post('http://localhost:5000/api/orders', orderData, {
         headers: { Authorization: `Bearer ${user.token}` }
@@ -134,38 +134,40 @@ const PizzaBuilder = () => {
     }
   };
 
-
   return (
-    <div className="p-8 max-w-6xl mx-auto">
-      <h1 className="text-4xl font-bold mb-8 title-gradient">Custom Pizza Builder</h1>
+    <div className="builder-page container">
+      <div className="builder-header">
+        <h1 className="builder-title title-gradient">Pizza Workshop</h1>
+        <p className="builder-subtitle text-secondary">Craft your culinary masterpiece with premium ingredients.</p>
+      </div>
       
-      <div className="flex gap-8 items-start">
+      <div className="builder-content-flex">
         {/* Left: Component Selection */}
-        <div className="flex-1">
-          <div className="flex justify-between mb-8 overflow-x-auto gap-4 pb-4">
+        <div className="builder-main">
+          <div className="builder-step-indicator">
             {steps.map((step, idx) => (
               <div 
                 key={step}
-                className={`flex-1 min-w-[100px] text-center p-3 rounded-xl border transition-all ${idx <= currentStep ? 'border-primary text-primary bg-primary/10' : 'border-white/10 text-secondary'}`}
+                className={`step-pill ${idx <= currentStep ? 'active' : ''}`}
               >
-                <div className="text-xs uppercase font-bold mb-1">Step {idx + 1}</div>
-                <div className="font-semibold">{step}</div>
+                <div className="step-phase">Phase 0{idx + 1}</div>
+                <div className="step-name">{step}</div>
               </div>
             ))}
           </div>
 
           <motion.div 
             key={currentStep}
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="grid grid-cols-2 md:grid-cols-3 gap-4"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="ingredient-grid"
           >
             {items.map(item => {
               const isSelected = selectedBase?.name === item.name || 
-                                selectedSauce?.name === item.name || 
-                                selectedCheese?.name === item.name || 
-                                selectedMeat?.name === item.name ||
-                                selectedVeggies.find(v => v.name === item.name);
+                                 selectedSauce?.name === item.name || 
+                                 selectedCheese?.name === item.name || 
+                                 selectedMeat?.name === item.name ||
+                                 selectedVeggies.find(v => v.name === item.name);
               
               return (
                 <button
@@ -177,86 +179,97 @@ const PizzaBuilder = () => {
                     if (currentStep === 3) dispatch(toggleVeggie(item));
                     if (currentStep === 4) dispatch(setMeat(item));
                   }}
-                  className={`p-6 rounded-2xl glass-card text-left transition-all ${isSelected ? 'border-primary shadow-[0_0_15px_rgba(255,77,0,0.2)]' : 'hover:border-white/20'}`}
+                  className={`ingredient-card ${isSelected ? 'selected' : ''}`}
                 >
-                  <div className="flex justify-between items-start mb-4">
-                    <span className="font-bold text-lg">{item.name}</span>
-                    {isSelected && <Check className="text-primary" size={20} />}
+                  <div className="ingredient-card-header">
+                    <div className="ingredient-icon-wrapper">
+                        <Pizza size={24} className={isSelected ? 'text-primary' : 'icon-muted'} />
+                    </div>
+                    {isSelected && <div className="ingredient-check-wrapper"><Check className="text-white" size={14} strokeWidth={4} /></div>}
                   </div>
-                  <div className="text-primary font-bold">₹{item.price}</div>
-                  <div className="text-secondary text-xs mt-1">{item.quantity} in stock</div>
+                  <div className="ingredient-name">{item.name}</div>
+                  <div className="ingredient-price text-primary">₹{item.price}</div>
+                  <div className="ingredient-stock">{item.quantity} units left</div>
                 </button>
               );
             })}
           </motion.div>
 
-          <div className="flex justify-between mt-12">
+          <div className="builder-navigation">
             <button
               onClick={handleBack}
               disabled={currentStep === 0}
-              className="flex items-center gap-2 text-secondary hover:text-white"
+              className={`nav-back-btn ${currentStep === 0 ? 'disabled' : ''}`}
             >
-              <ChevronLeft size={20} /> Back
+              <ChevronLeft size={20} /> Previous Phase
             </button>
             
-            {currentStep === steps.length - 1 ? (
-              <button onClick={handlePlaceOrder} className="btn-primary py-4 px-8 text-lg flex items-center gap-2">
-                <ShoppingCart size={22} /> Checkout - ₹{totalPrice}
-              </button>
-            ) : (
-              <button onClick={handleNext} className="btn-primary flex items-center gap-2">
-                Next <ChevronRight size={20} />
-              </button>
-            )}
+            <div className="nav-next-actions">
+                 {currentStep < steps.length - 1 && (
+                    <button onClick={handleNext} className="btn-primary nav-next-btn group">
+                        Next Phase <ChevronRight size={20} className="next-icon-anim" />
+                    </button>
+                 )}
+                 {currentStep === steps.length - 1 && (
+                    <button onClick={handlePlaceOrder} className="btn-primary finalize-btn">
+                        <ShoppingCart size={22} strokeWidth={3} /> <span>Finalize Build</span>
+                    </button>
+                 )}
+            </div>
           </div>
         </div>
 
         {/* Right: Summary Card */}
-        <div className="w-80 glass-card p-6 sticky top-28">
-          <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
-            <Pizza className="text-primary" size={24} /> Your Build
+        <div className="builder-summary">
+          <h2 className="summary-title">
+            <div className="title-dash bg-primary"></div>
+            Order Blueprint
           </h2>
-          <div className="space-y-3 text-sm">
-            <div className="flex justify-between py-2 border-b border-white/5">
-              <span className="text-secondary">Base:</span>
-              <span className="font-medium">{selectedBase?.name || '---'}</span>
+          
+          <div className="summary-items-list">
+            <div className="summary-item">
+              <span className="summary-label">Selected Base</span>
+              <span className="summary-value">{selectedBase?.name || '---'}</span>
             </div>
-            <div className="flex justify-between py-2 border-b border-white/5">
-              <span className="text-secondary">Sauce:</span>
-              <span className="font-medium">{selectedSauce?.name || '---'}</span>
+            <div className="summary-item">
+              <span className="summary-label">Signature Sauce</span>
+              <span className="summary-value">{selectedSauce?.name || '---'}</span>
             </div>
-            <div className="flex justify-between py-2 border-b border-white/5">
-              <span className="text-secondary">Cheese:</span>
-              <span className="font-medium">{selectedCheese?.name || '---'}</span>
+            <div className="summary-item">
+              <span className="summary-label">Premium Cheese</span>
+              <span className="summary-value">{selectedCheese?.name || '---'}</span>
             </div>
-            <div className="py-2 border-b border-white/5">
-              <span className="text-secondary block mb-1">Veggies:</span>
-              <div className="flex flex-wrap gap-1">
+            <div className="summary-item-veggies">
+              <span className="summary-label">Garden Veggies</span>
+              <div className="veggie-tags">
                 {selectedVeggies.map(v => (
-                  <span key={v.name} className="bg-primary/10 text-primary px-2 py-0.5 rounded-md text-[10px]">{v.name}</span>
+                  <span key={v.name} className="veggie-tag">{v.name}</span>
                 ))}
-                {selectedVeggies.length === 0 && <span className="text-white/20">None selected</span>}
+                {selectedVeggies.length === 0 && <span className="no-veggies">No greens added</span>}
               </div>
             </div>
-            <div className="flex justify-between py-2 border-b border-white/5">
-              <span className="text-secondary">Meat:</span>
-              <span className="font-medium">{selectedMeat?.name || 'None'}</span>
+            <div className="summary-item">
+              <span className="summary-label">Choice Meat</span>
+              <span className="summary-value">{selectedMeat?.name || 'Vegetarian'}</span>
             </div>
           </div>
 
-          <div className="mt-8 space-y-4">
-            <label className="text-secondary text-sm font-bold uppercase tracking-widest block">Delivery Address</label>
+          <div className="delivery-section">
+            <label className="delivery-label">Delivery Coordinates</label>
             <textarea 
-              placeholder="House No, Street, Landmark..."
-              className="w-full glass-card bg-white/5 border-white/10 rounded-xl p-3 text-sm focus:border-primary outline-none min-h-[100px] transition"
+              placeholder="Enter your location details..."
+              className="delivery-textarea"
               value={address}
               onChange={(e) => setAddress(e.target.value)}
             />
           </div>
 
-          <div className="mt-8 pt-4 border-t border-white/10 flex justify-between items-center">
-            <span className="text-lg font-bold">Total</span>
-            <span className="text-2xl font-bold text-primary">₹{totalPrice}</span>
+          <div className="total-section">
+            <div>
+                <div className="total-label">Total Premium</div>
+                <div className="total-price text-primary">₹{totalPrice}</div>
+            </div>
+            <div className="tax-label">Inc. Taxes</div>
           </div>
         </div>
 

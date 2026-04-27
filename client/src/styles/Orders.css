@@ -1,0 +1,223 @@
+/* ORDERS PAGE SPECIFIC STYLES - SEMANTIC CSS */
+
+.orders-page-container {
+  padding: 2rem;
+  max-width: 56rem; /* 4xl */
+  margin: 0 auto;
+}
+
+.orders-title {
+  font-size: 2.25rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+}
+
+.orders-loading, .orders-empty {
+  text-align: center;
+  padding: 5rem 0;
+}
+
+.orders-empty-text {
+  font-size: 1.125rem;
+  margin-bottom: 1.5rem;
+}
+
+.orders-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.order-card {
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.order-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.order-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.order-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.order-id {
+  font-weight: 700;
+  font-size: 1.125rem;
+  color: white;
+}
+
+.order-status {
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.status-delivered {
+  background: rgba(34, 197, 94, 0.2);
+  color: #22c55e;
+}
+
+.status-pending {
+  background: rgba(255, 77, 0, 0.2);
+  color: var(--primary);
+}
+
+.order-date {
+  font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.order-items-list {
+  margin-top: 0.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.order-item-badge {
+  font-size: 0.75rem;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  color: white;
+}
+
+.order-actions {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.75rem;
+}
+
+.order-price {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: white;
+}
+
+.track-order-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--primary);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: var(--transition);
+  font-size: 1rem;
+}
+
+.track-order-btn:hover {
+  color: white;
+}
+
+/* TRACKING PAGE STYLES */
+.tracking-page-container {
+  padding: 2rem;
+  max-width: 42rem;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.tracking-title {
+  font-size: 1.875rem;
+  font-weight: 700;
+  margin-bottom: 3rem;
+}
+
+.tracking-id {
+  margin-bottom: 1rem;
+}
+
+.tracking-card {
+  padding: 2.5rem;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 3rem;
+}
+
+.tracking-steps-container {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  z-index: 10;
+}
+
+.tracking-step-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+}
+
+.tracking-icon-wrapper {
+  padding: 1rem;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--secondary);
+  transition: all 0.5s ease;
+}
+
+.tracking-icon-wrapper.active {
+  background: var(--primary);
+  color: white;
+  transform: scale(1.1);
+  box-shadow: 0 0 20px rgba(255, 77, 0, 0.4);
+}
+
+.tracking-step-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.2);
+  transition: color 0.5s ease;
+}
+
+.tracking-step-label.active {
+  color: white;
+}
+
+.tracking-progress-bg {
+  position: absolute;
+  top: 68px;
+  left: 15%;
+  right: 15%;
+  height: 0.25rem;
+  background: rgba(255, 255, 255, 0.05);
+  z-index: 0;
+}
+
+.tracking-progress-fill {
+  height: 100%;
+}
+
+.tracking-current-status {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+/* Base styles inherited */
+.glass-card {
+  background: var(--bg-card);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+}
