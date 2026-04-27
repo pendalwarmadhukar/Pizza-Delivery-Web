@@ -1,5 +1,5 @@
 <p align='center'>
-  <img src='./pizza_app_banner.png' width='100%' alt='Pizza Hub Banner'>
+  <img src='./pizza_app_banner.png' width='100%' height='350' alt='Pizza Hub Banner'>
 </p>
 
 
