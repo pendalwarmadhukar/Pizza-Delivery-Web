@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../store/slices/authSlice';
-import { Pizza, ShoppingBag, User, LogOut, Settings, MapPin } from 'lucide-react';
+import { Pizza, ShoppingBag, User, LogOut, Settings, MapPin, Menu, X } from 'lucide-react';
 
 const Navbar = () => {
   const { user } = useSelector((state) => state.auth);
@@ -10,6 +10,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [address, setAddress] = useState(() => localStorage.getItem('deliveryLocation') || 'Detecting location...');
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     if (!localStorage.getItem('deliveryLocation')) {
@@ -41,7 +42,6 @@ const Navbar = () => {
   }, []);
 
   const handleUpdateLocation = async () => {
-    // Dynamically import Swal to avoid issues if it's not at the top, but it should be imported.
     const Swal = (await import('sweetalert2')).default;
     const { value: newLocation } = await Swal.fire({
       title: 'Update Delivery Location',
@@ -75,6 +75,7 @@ const Navbar = () => {
   const handleLogout = () => {
     dispatch(logout());
     navigate('/login');
+    setIsMenuOpen(false);
   };
 
   const isActive = (path) => location.pathname === path;
@@ -86,8 +87,7 @@ const Navbar = () => {
         <span className="navbar-logo-text">Pizza Hub</span>
       </Link>
 
-      {/* Location */}
-      <div className="navbar-location" onClick={handleUpdateLocation} title="Click to change your delivery address">
+      <div className="navbar-location hidden md:flex" onClick={handleUpdateLocation}>
         <MapPin size={16} className="text-primary" />
         <div>
           <div className="navbar-location-label">Deliver to</div>
@@ -95,9 +95,9 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Nav Links */}
-      <div className="navbar-links">
-        <Link to="/" className={`nav-link ${isActive('/') ? 'active' : ''}`}>Menu</Link>
+      {/* Desktop Menu */}
+      <div className="navbar-links hidden lg:flex">
+        <Link to="/menu" className={`nav-link ${isActive('/menu') ? 'active' : ''}`}>Menu</Link>
         <Link to="/builder" className={`nav-link ${isActive('/builder') ? 'active' : ''}`}>Builder</Link>
         
         {user ? (
@@ -127,8 +127,70 @@ const Navbar = () => {
           </div>
         )}
       </div>
+
+      {/* Mobile Actions */}
+      <div className="flex items-center gap-4 lg:hidden">
+        <button onClick={handleUpdateLocation} className="p-2 text-primary">
+          <MapPin size={24} />
+        </button>
+        <button 
+          onClick={() => setIsMenuOpen(!isMenuOpen)} 
+          className="p-2 text-secondary hover:text-white transition"
+        >
+          {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
+        </button>
+      </div>
+
+      {/* Mobile Sidebar */}
+      <div className={`fixed inset-0 bg-black/60 backdrop-blur-lg z-50 transition-all duration-300 ${isMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible lg:hidden'}`}>
+        <div className={`absolute right-0 top-0 h-full w-4/5 max-w-xs bg-dark p-8 shadow-2xl transition-transform duration-300 ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+          <div className="flex justify-between items-center mb-12">
+            <span className="text-2xl font-bold">Menu</span>
+            <button onClick={() => setIsMenuOpen(false)}><X size={28} /></button>
+          </div>
+
+          <div className="space-y-6">
+            <Link to="/menu" onClick={() => setIsMenuOpen(false)} className={`flex items-center gap-4 text-xl ${isActive('/menu') ? 'text-primary' : ''}`}>
+              <Pizza size={24} /> Menu
+            </Link>
+            <Link to="/builder" onClick={() => setIsMenuOpen(false)} className={`flex items-center gap-4 text-xl ${isActive('/builder') ? 'text-primary' : ''}`}>
+              <Settings size={24} /> Builder
+            </Link>
+            
+            <hr className="border-white/10 my-4" />
+
+            {user ? (
+              <>
+                {user.role === 'admin' ? (
+                  <Link to="/admin" onClick={() => setIsMenuOpen(false)} className="flex items-center gap-4 text-xl">
+                    <Settings size={24} /> Admin Dashboard
+                  </Link>
+                ) : (
+                  <Link to="/my-orders" onClick={() => setIsMenuOpen(false)} className="flex items-center gap-4 text-xl">
+                    <ShoppingBag size={24} /> My Orders
+                  </Link>
+                )}
+                <div className="pt-6">
+                  <div className="flex items-center gap-4 mb-6 text-secondary">
+                    <User size={24} /> {user.name}
+                  </div>
+                  <button onClick={handleLogout} className="btn-primary w-full py-4 flex items-center justify-center gap-3">
+                    <LogOut size={20} /> Logout
+                  </button>
+                </div>
+              </>
+            ) : (
+              <div className="space-y-4 pt-4">
+                <Link to="/login" onClick={() => setIsMenuOpen(false)} className="btn-secondary w-full py-4 block text-center">Login</Link>
+                <Link to="/register" onClick={() => setIsMenuOpen(false)} className="btn-primary w-full py-4 block text-center">Sign Up</Link>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
     </nav>
   );
 };
 
 export default Navbar;
+

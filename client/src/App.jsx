@@ -9,8 +9,10 @@ import PizzaBuilder from './pages/PizzaBuilder';
 import OrderTracking from './pages/OrderTracking';
 import AdminDashboard from './pages/AdminDashboard';
 import InventoryManagement from './pages/InventoryManagement';
+import ProductManagement from './pages/ProductManagement';
 import ProtectedRoute from './components/ProtectedRoute';
 import MyOrders from './pages/MyOrders';
+import Profile from './pages/Profile';
 
 function App() {
   return (
@@ -40,6 +42,13 @@ function App() {
               </ProtectedRoute>
             } />
 
+            <Route path="/profile" element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            } />
+
+
             {/* Admin Routes */}
             <Route path="/admin" element={
               <ProtectedRoute adminOnly={true}>
@@ -51,12 +60,18 @@ function App() {
                 <InventoryManagement />
               </ProtectedRoute>
             } />
+            <Route path="/admin/products" element={
+              <ProtectedRoute adminOnly={true}>
+                <ProductManagement />
+              </ProtectedRoute>
+            } />
           </Routes>
         </main>
       </div>
     </Router>
   );
 }
+
 
 export default App;
 

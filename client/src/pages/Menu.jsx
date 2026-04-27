@@ -1,17 +1,19 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { Loader2, Pizza as PizzaIcon, Search } from 'lucide-react';
+import { Pizza as PizzaIcon, Search, Filter, Leaf, Utensils } from 'lucide-react';
+import Skeleton from '../components/Skeleton';
 
 const Menu = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
+  const [activeType, setActiveType] = useState('All'); // All, Veg, Non-Veg
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/inventory/products');
+        const res = await axios.get('http://localhost:5000/api/pizza');
         setProducts(res.data);
         setLoading(false);
       } catch (err) {
@@ -22,40 +24,72 @@ const Menu = () => {
     fetchProducts();
   }, []);
 
-  if (loading) {
-    return (
-      <div className="flex-center" style={{ minHeight: '60vh', flexDirection: 'column', gap: '1rem' }}>
-        <Loader2 className="animate-spin text-primary" size={48} />
-        <p>Preparing the kitchen...</p>
-      </div>
-    );
-  }
-
-  const filteredProducts = products.filter(p => 
-    p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    p.description.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredProducts = products.filter(p => {
+    const matchesSearch = p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         p.description.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesType = activeType === 'All' || p.type === activeType;
+    return matchesSearch && matchesType;
+  });
 
   const pizzas = filteredProducts.filter(p => p.category === 'Pizza');
   const sides = filteredProducts.filter(p => p.category === 'Side');
 
+  if (loading) {
+    return (
+      <div className="menu-page px-4 py-12 max-w-7xl mx-auto">
+        <div className="h-12 w-64 mb-8"><Skeleton className="h-full w-full" /></div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {[1, 2, 3, 4, 5, 6].map(i => (
+            <div key={i} className="glass-card overflow-hidden h-96">
+              <Skeleton className="h-52 w-full" />
+              <div className="p-6">
+                <Skeleton className="h-6 w-3/4 mb-4" />
+                <Skeleton className="h-4 w-full mb-2" />
+                <Skeleton className="h-4 w-5/6 mb-6" />
+                <Skeleton className="h-12 w-full" />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="menu-page animate-fade px-4 py-12 max-w-7xl mx-auto">
-      <div className="flex flex-col md:flex-row justify-between items-center mb-12 gap-6">
+      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-12 gap-8">
         <div>
-          <h1 className="text-4xl md:text-5xl font-extrabold mb-3">Our Kitchen <span className="text-primary">Specials</span></h1>
+          <h1 className="text-4xl md:text-5xl font-extrabold mb-3 title-gradient">Our Kitchen Specials</h1>
           <p className="text-secondary text-lg">Handcrafted dinner options prepared fresh by our chefs.</p>
         </div>
 
-        <div className="relative w-full md:w-96">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-secondary" size={20} />
-          <input 
-            type="text" 
-            placeholder="Search for pizzas, sides..." 
-            className="w-full pl-12 pr-4 py-4 glass-card bg-white/5 border-white/10 rounded-2xl focus:border-primary outline-none transition"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
+        <div className="flex flex-col sm:flex-row gap-4 w-full lg:w-auto">
+          {/* Category Filter */}
+          <div className="flex bg-white/5 p-1 rounded-2xl border border-white/10">
+            {['All', 'Veg', 'Non-Veg'].map(type => (
+              <button 
+                key={type}
+                onClick={() => setActiveType(type)}
+                className={`px-6 py-2 rounded-xl text-sm font-bold transition-all flex items-center gap-2 ${activeType === type ? 'bg-primary text-white shadow-lg' : 'text-secondary hover:text-white'}`}
+              >
+                {type === 'Veg' && <Leaf size={14} />}
+                {type === 'Non-Veg' && <Utensils size={14} />}
+                {type}
+              </button>
+            ))}
+          </div>
+
+          {/* Search Box */}
+          <div className="relative flex-1 sm:w-80">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-secondary" size={20} />
+            <input 
+              type="text" 
+              placeholder="Search for pizzas, sides..." 
+              className="w-full pl-12 pr-4 py-3.5 glass-card bg-white/5 border-white/10 rounded-2xl focus:border-primary outline-none transition"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
         </div>
       </div>
       
@@ -69,7 +103,11 @@ const Menu = () => {
               <div key={item._id} className="food-card glass-card hover:scale-[1.02] transition-transform duration-300">
                 <div className="h-52 overflow-hidden rounded-t-3xl relative">
                   <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
-                  <div className="absolute top-4 right-4 bg-black/60 backdrop-blur-md px-3 py-1 rounded-full text-primary font-bold">
+                  <div className="absolute top-4 left-4 bg-black/60 backdrop-blur-md px-3 py-1 rounded-full flex items-center gap-1">
+                    <div className={`h-2 w-2 rounded-full ${item.type === 'Veg' ? 'bg-green-500' : 'bg-red-500'}`}></div>
+                    <span className="text-[10px] font-bold uppercase">{item.type}</span>
+                  </div>
+                  <div className="absolute top-4 right-4 bg-primary px-3 py-1 rounded-full text-white font-bold text-sm">
                     ₹{item.price}
                   </div>
                 </div>
@@ -96,7 +134,7 @@ const Menu = () => {
               <div key={item._id} className="food-card glass-card hover:scale-[1.02] transition-transform duration-300">
                 <div className="h-52 overflow-hidden rounded-t-3xl relative">
                   <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
-                  <div className="absolute top-4 right-4 bg-black/60 backdrop-blur-md px-3 py-1 rounded-full text-secondary font-bold">
+                  <div className="absolute top-4 right-4 bg-secondary px-3 py-1 rounded-full text-white font-bold text-sm">
                     ₹{item.price}
                   </div>
                 </div>
@@ -113,10 +151,11 @@ const Menu = () => {
         </div>
       )}
 
-      {pizzas.length === 0 && sides.length === 0 && (
-        <div className="text-center py-20 glass-card">
-          <p className="text-xl text-secondary">No items found matching "{searchTerm}"</p>
-          <button onClick={() => setSearchTerm('')} className="mt-4 text-primary font-bold">Clear search</button>
+      {filteredProducts.length === 0 && (
+        <div className="text-center py-24 glass-card border-dashed">
+          <PizzaIcon size={48} className="text-white/10 mx-auto mb-4" />
+          <p className="text-xl text-secondary">No items found matching your filters</p>
+          <button onClick={() => {setSearchTerm(''); setActiveType('All');}} className="mt-4 text-primary font-bold hover:underline">Clear all filters</button>
         </div>
       )}
 
@@ -124,11 +163,12 @@ const Menu = () => {
         <PizzaIcon size={64} className="text-primary mx-auto mb-6" />
         <h3 className="text-2xl font-extrabold mb-4">Want to create your own?</h3>
         <p className="text-secondary mb-8 max-w-md mx-auto">Use our interactive builder to craft a pizza that’s uniquely yours with any toppings you desire.</p>
-        <Link to="/builder" className="btn-primary py-4 px-10 text-lg">Go to Pizza Builder</Link>
+        <Link to="/builder" className="btn-primary py-4 px-10 text-lg shadow-xl shadow-primary/20">Go to Pizza Builder</Link>
       </div>
     </div>
   );
 };
 
 export default Menu;
+
 
