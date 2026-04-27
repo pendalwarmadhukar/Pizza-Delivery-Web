@@ -16,7 +16,7 @@ import Profile from './pages/Profile';
 
 function App() {
   return (
-    <Router>
+    <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <div className="min-h-screen relative overflow-hidden">
         <div className="pizza-glow top-20 -left-20"></div>
         <div className="pizza-glow bottom-20 -right-20" style={{ background: 'rgba(255, 184, 0, 0.2)' }}></div>

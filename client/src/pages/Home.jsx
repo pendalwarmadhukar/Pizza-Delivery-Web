@@ -54,6 +54,25 @@ const Home = () => {
       return navigate('/login');
     }
 
+    const { value: deliveryAddress } = await Swal.fire({
+      title: 'Delivery Address',
+      input: 'textarea',
+      inputLabel: 'Where should we deliver your pizza?',
+      inputPlaceholder: 'Enter your full address here...',
+      inputAttributes: {
+        'aria-label': 'Enter your full address'
+      },
+      showCancelButton: true,
+      confirmButtonColor: '#FF4D00',
+      inputValidator: (value) => {
+        if (!value) {
+          return 'Address is required for delivery!'
+        }
+      }
+    });
+
+    if (!deliveryAddress) return;
+
     try {
       // Step 1: Create order on backend
       const orderItems = Object.entries(cart).map(([id, qty]) => {
@@ -62,13 +81,15 @@ const Home = () => {
           name: `${qty}x ${pizza.name}`,
           price: pizza.price * qty,
           isCustom: false,
-          config: null
+          config: null,
+          quantity: qty
         };
       });
 
       const orderData = {
         items: orderItems,
-        totalAmount: totalPrice
+        totalAmount: totalPrice,
+        deliveryAddress
       };
 
       const { data } = await axios.post('http://localhost:5000/api/orders', orderData, {

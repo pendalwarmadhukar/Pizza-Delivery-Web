@@ -5,7 +5,7 @@ const crypto = require('crypto');
 const mongoose = require('mongoose');
 
 exports.createOrder = async (req, res, next) => {
-  const { items, totalAmount } = req.body;
+  const { items, totalAmount, deliveryAddress } = req.body;
   try {
     // 1. Pre-Payment Stock Check
     for (const item of items) {
@@ -34,6 +34,7 @@ exports.createOrder = async (req, res, next) => {
       items,
       totalAmount,
       razorpayOrderId: rzpOrder.id,
+      deliveryAddress,
       status: 'Order Received',
     });
 
